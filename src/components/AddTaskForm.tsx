@@ -17,26 +17,31 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAddTask }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ margin: '1rem 0' }}>
+    <form onSubmit={handleSubmit} className="flex gap-2 my-4">
       <input
         type="text"
         placeholder="Enter new task title..."
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         data-testid="task-title-input"
-        style={{ padding: '0.5rem', marginRight: '0.5rem' }}
+        className="flex-1 p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
       <select
         value={priority}
         onChange={(e) => setPriority(e.target.value as Priority)}
         data-testid="task-priority-select"
-        style={{ padding: '0.5rem', marginRight: '0.5rem' }}
+        className="p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
       >
         <option value="low">Low</option>
         <option value="medium">Medium</option>
         <option value="high">High</option>
       </select>
-      <button type="submit" style={{ padding: '0.5rem 1rem' }}>Add Task</button>
+      <button 
+        type="submit" 
+        className="px-4 py-2 bg-indigo-600 text-white font-medium rounded hover:bg-indigo-700 transition-colors"
+      >
+        Add Task
+      </button>
     </form>
   );
 };

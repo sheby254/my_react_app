@@ -9,25 +9,27 @@ interface TaskItemProps {
 
 export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggleComplete, onDelete }) => {
   return (
-    <div 
-      className={`task-item ${task.completed ? 'completed' : ''}`}
-      style={{ padding: '0.75rem', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between' }}
-    >
-      <div>
+    <div className={`p-3 border-b border-slate-100 flex items-center justify-between transition-colors hover:bg-slate-50 ${task.completed ? 'bg-slate-50/50' : ''}`}>
+      <div className="flex items-center gap-2">
         <input
           type="checkbox"
           checked={task.completed}
           onChange={() => onToggleComplete(task.id)}
           data-testid={`checkbox-${task.id}`}
+          className="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
         />
-        <span style={{ textDecoration: task.completed ? 'line-through' : 'none', marginLeft: '0.5rem' }}>
+        <span className={`${task.completed ? 'line-through text-slate-400' : 'text-slate-700'}`}>
           {task.title}
         </span>
-        <span style={{ marginLeft: '0.5rem', fontSize: '0.8rem', color: '#666' }}>
-          [{task.priority.toUpperCase()}]
+        <span className="text-xs font-semibold uppercase px-2 py-0.5 rounded bg-slate-200 text-slate-600">
+          {task.priority}
         </span>
       </div>
-      <button onClick={() => onDelete(task.id)} data-testid={`delete-${task.id}`}>
+      <button 
+        onClick={() => onDelete(task.id)} 
+        data-testid={`delete-${task.id}`}
+        className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 border border-red-200 rounded transition-colors"
+      >
         Delete
       </button>
     </div>

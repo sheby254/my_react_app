@@ -46,20 +46,22 @@ export function App() {
   });
 
   return (
-    <div style={{ maxWidth: '600px', margin: '2rem auto', fontFamily: 'sans-serif' }}>
-      <Header title="React Task Manager" totalTasks={tasks.length} />
-      <AddTaskForm onAddTask={handleAddTask} />
-      <FilterControls
-        currentFilter={filter}
-        onFilterChange={setFilter}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-      />
-      <TaskList
-        tasks={filteredTasks}
-        onToggleComplete={handleToggleComplete}
-        onDelete={handleDeleteTask}
-      />
+    <div className="min-h-screen bg-slate-100 text-slate-800 p-4 font-sans">
+      <div className="max-w-2xl mx-auto my-12 p-8 bg-white rounded-lg shadow-md border border-slate-200">
+        <Header title="React Task Manager" totalTasks={tasks.length} />
+        <AddTaskForm onAddTask={handleAddTask} />
+        <FilterControls
+          currentFilter={filter}
+          onFilterChange={setFilter}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+        />
+        <TaskList
+          tasks={filteredTasks}
+          onToggleComplete={handleToggleComplete}
+          onDelete={handleDeleteTask}
+        />
+      </div>
     </div>
   );
 }

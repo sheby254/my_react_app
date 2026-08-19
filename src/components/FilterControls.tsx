@@ -16,27 +16,27 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   onSearchChange,
 }) => {
   return (
-    <div className="filter-controls" style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+    <div className="flex flex-col sm:flex-row justify-between gap-3 mb-4">
       <input
         type="text"
         placeholder="Search tasks..."
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         data-testid="search-input"
-        style={{ padding: '0.4rem' }}
+        className="p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
       />
-      <div>
+      <div className="flex gap-1">
         {(['all', 'active', 'completed'] as FilterStatus[]).map((status) => (
           <button
             key={status}
             onClick={() => onFilterChange(status)}
-            style={{
-              padding: '0.4rem 0.8rem',
-              marginLeft: '0.25rem',
-              fontWeight: currentFilter === status ? 'bold' : 'normal',
-            }}
+            className={`px-3 py-1.5 text-xs font-medium uppercase rounded border transition-colors ${
+              currentFilter === status
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'
+            }`}
           >
-            {status.toUpperCase()}
+            {status}
           </button>
         ))}
       </div>
