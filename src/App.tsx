@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Task, Priority } from './types/task';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import { Header } from './components/Header';
 import { AddTaskForm } from './components/AddTaskForm';
 import { FilterControls, FilterStatus } from './components/FilterControls';
 import { TaskList } from './components/TaskList';
 
 export function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks_data', []);
   const [filter, setFilter] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
 
