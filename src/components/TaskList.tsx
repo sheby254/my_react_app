@@ -2,11 +2,22 @@ import React from 'react';
 
 interface TaskListProps {
   tasks: Array<{ id: string; title: string; completed: boolean }>;
-  onToggle: (id: string) => void;
+  onToggle?: (id: string) => void;
+  onToggleComplete?: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
-export const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle }) => {
+export const TaskList: React.FC<TaskListProps> = ({
+  tasks,
+  onToggle,
+  onToggleComplete,
+  onDelete,
+}) => {
   const completedCount = tasks.filter((t) => t.completed).length;
+  const handleToggle = (id: string) => {
+    if (onToggleComplete) onToggleComplete(id);
+    else if (onToggle) onToggle(id);
+  };
 
   return (
     <div>
@@ -20,10 +31,15 @@ export const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle }) => {
               <input
                 type="checkbox"
                 checked={task.completed}
-                onChange={() => onToggle(task.id)}
+                onChange={() => handleToggle(task.id)}
               />
               <span className={task.completed ? 'completed' : ''}>{task.title}</span>
             </label>
+            {onDelete && (
+              <button onClick={() => onDelete(task.id)} className="delete-btn">
+                Delete
+              </button>
+            )}
           </li>
         ))}
       </ul>
