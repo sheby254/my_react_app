@@ -1,9 +1,10 @@
 import React from 'react';
 
-interface HeaderProps {
+export interface HeaderProps {
   title?: string;
   totalTasks?: number;
   completedTasks?: number;
+  [key: string]: any;
 }
 
 export const Header: React.FC<HeaderProps> = ({
