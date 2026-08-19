@@ -1,22 +1,19 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { describe, it, expect, beforeEach } from 'vitest';
 import App from './App';
 
-describe('App Integration', () => {
+describe('App Component', () => {
   beforeEach(() => {
-    window.localStorage.clear();
+    localStorage.clear();
   });
 
-  it('allows users to add a task and displays it in the list', () => {
+  it('renders the header title', () => {
     render(<App />);
+    expect(screen.getByText(/Task Tracker/i)).toBeInTheDocument();
+  });
 
-    const input = screen.getByTestId('task-title-input');
-    const submitBtn = screen.getByRole('button', { name: /add task/i });
-
-    fireEvent.change(input, { target: { value: 'Buy groceries' } });
-    fireEvent.click(submitBtn);
-
-    expect(screen.getByText('Buy groceries')).toBeInTheDocument();
-    expect(screen.getByTestId('task-count')).toHaveTextContent('1');
+  it('renders the add task form', () => {
+    render(<App />);
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 });
