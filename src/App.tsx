@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocalStorage } from './hooks/useLocalStorage';
 import { Header } from './components/Header';
 import { AddTaskForm } from './components/AddTaskForm';
 import type { Priority } from './components/AddTaskForm';
 import { TaskList } from './components/TaskList';
 import { FilterControls } from './components/FilterControls';
 import type { FilterStatus } from './components/FilterControls';
+import { DarkModeToggle } from './components/DarkModeToggle';
 
 export interface Task {
   id: string;
@@ -14,9 +16,18 @@ export interface Task {
 }
 
 export function App() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useLocalStorage<Task[]>('tasks', []);
   const [filter, setFilter] = useState<FilterStatus>('all');
   const [search, setSearch] = useState('');
+  const [darkMode, setDarkMode] = useLocalStorage<boolean>('darkMode', false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   const handleAddTask = (title: string, priority?: Priority) => {
     const newTask: Task = {
@@ -49,22 +60,30 @@ export function App() {
   const completedCount = tasks.filter((t) => t.completed).length;
 
   return (
-    <div className="app-container">
-      <Header title="Task Tracker" totalTasks={tasks.length} completedTasks={completedCount} />
-      <AddTaskForm onAddTask={handleAddTask} onAdd={(t) => handleAddTask(t, 'medium')} />
-      <FilterControls
-        filter={filter}
-        currentFilter={filter}
-        searchQuery={search}
-        onFilterChange={setFilter}
-        onSearchChange={setSearch}
-      />
-      <TaskList
-        tasks={filteredTasks}
-        onToggle={handleToggle}
-        onToggleComplete={handleToggle}
-        onDelete={handleDelete}
-      />
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-200">
+      <div className="max-w-2xl mx-auto p-4 space-y-6">
+        <div className="flex items-center justify-between">
+          <Header title="Task Tracker" totalTasks={tasks.length} completedTasks={completedCount} />
+          <DarkModeToggle 
+            darkMode={darkMode} 
+            onToggle={() => setDarkMode((prev) => !prev)} 
+          />
+        </div>
+        <AddTaskForm onAddTask={handleAddTask} onAdd={(t) => handleAddTask(t, 'medium')} />
+        <FilterControls
+          filter={filter}
+          currentFilter={filter}
+          searchQuery={search}
+          onFilterChange={setFilter}
+          onSearchChange={setSearch}
+        />
+        <TaskList
+          tasks={filteredTasks}
+          onToggle={handleToggle}
+          onToggleComplete={handleToggle}
+          onDelete={handleDelete}
+        />
+      </div>
     </div>
   );
 }
