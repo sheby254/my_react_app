@@ -1,47 +1,42 @@
-import React, { useState } from 'react';
-import type { Priority } from '../types/task';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface AddTaskFormProps {
-  onAddTask: (title: string, priority: Priority) => void;
+  onAdd: (title: string) => void;
 }
 
-export const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAddTask }) => {
+export const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAdd }) => {
   const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState<Priority>('medium');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
-    onAddTask(title, priority);
+    onAdd(title.trim());
     setTitle('');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 my-4">
+    <form onSubmit={handleSubmit}>
       <input
+        ref={inputRef}
         type="text"
-        placeholder="Enter new task title..."
+        placeholder="Add task (Ctrl+K to focus)"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        data-testid="task-title-input"
-        className="flex-1 p-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        aria-label="New task title"
       />
-      <select
-        value={priority}
-        onChange={(e) => setPriority(e.target.value as Priority)}
-        data-testid="task-priority-select"
-        className="p-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
-      >
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-      <button 
-        type="submit" 
-        className="px-4 py-2 bg-indigo-600 text-white font-medium rounded hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors"
-      >
-        Add Task
-      </button>
+      <button type="submit">Add Task</button>
     </form>
   );
 };
