@@ -1,42 +1,36 @@
 import React from 'react';
 
-export type FilterStatus = 'all' | 'active' | 'completed';
-
 interface FilterControlsProps {
-  currentFilter: FilterStatus;
-  onFilterChange: (filter: FilterStatus) => void;
+  filter: string;
   searchQuery: string;
+  onFilterChange: (filter: string) => void;
   onSearchChange: (query: string) => void;
 }
 
 export const FilterControls: React.FC<FilterControlsProps> = ({
-  currentFilter,
-  onFilterChange,
+  filter,
   searchQuery,
+  onFilterChange,
   onSearchChange,
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row justify-between gap-3 mb-4">
+    <div className="filter-controls">
       <input
-        type="text"
+        type="search"
         placeholder="Search tasks..."
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
-        data-testid="search-input"
-        className="p-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+        aria-label="Search tasks"
       />
-      <div className="flex gap-1">
-        {(['all', 'active', 'completed'] as FilterStatus[]).map((status) => (
+      <div role="group" aria-label="Filter tasks">
+        {['all', 'active', 'completed'].map((f) => (
           <button
-            key={status}
-            onClick={() => onFilterChange(status)}
-            className={`px-3 py-1.5 text-xs font-medium uppercase rounded border transition-colors ${
-              currentFilter === status
-                ? 'bg-indigo-600 text-white border-indigo-600 dark:bg-indigo-500 dark:border-indigo-500'
-                : 'bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600'
-            }`}
+            key={f}
+            onClick={() => onFilterChange(f)}
+            aria-pressed={filter === f}
+            className={filter === f ? 'active' : ''}
           >
-            {status}
+            {f.charAt(0).toUpperCase() + f.slice(1)}
           </button>
         ))}
       </div>
