@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Task, Priority } from './types/task';
+import type { Task, Priority } from './types/task';
+import type { FilterStatus } from './components/FilterControls';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Header } from './components/Header';
 import { AddTaskForm } from './components/AddTaskForm';
-import { FilterControls, FilterStatus } from './components/FilterControls';
+import { FilterControls } from './components/FilterControls';
 import { TaskList } from './components/TaskList';
 import { DarkModeToggle } from './components/DarkModeToggle';
 

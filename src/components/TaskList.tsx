@@ -1,5 +1,5 @@
 import React from 'react';
-import { Task } from '../types/task';
+import type { Task } from '../types/task';
 import { TaskItem } from './TaskItem';
 
 interface TaskListProps {
@@ -10,11 +10,11 @@ interface TaskListProps {
 
 export const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDelete }) => {
   if (tasks.length === 0) {
-    return <p style={{ padding: '1rem', color: '#888' }}>No tasks found. Add one above!</p>;
+    return <p className="p-4 text-slate-500 dark:text-slate-400 text-center">No tasks found. Add one above!</p>;
   }
 
   return (
-    <div className="task-list">
+    <div className="task-list divide-y divide-slate-100 dark:divide-slate-700">
       {tasks.map((task) => (
         <TaskItem
           key={task.id}

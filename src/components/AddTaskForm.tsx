@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Priority } from '../types/task';
+import type { Priority } from '../types/task';
 
 interface AddTaskFormProps {
   onAddTask: (title: string, priority: Priority) => void;
