@@ -1,28 +1,32 @@
 import React from 'react';
-import type { Task } from '../types/task';
-import { TaskItem } from './TaskItem';
 
 interface TaskListProps {
-  tasks: Task[];
-  onToggleComplete: (id: string) => void;
-  onDelete: (id: string) => void;
+  tasks: Array<{ id: string; title: string; completed: boolean }>;
+  onToggle: (id: string) => void;
 }
 
-export const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDelete }) => {
-  if (tasks.length === 0) {
-    return <p className="p-4 text-slate-500 dark:text-slate-400 text-center">No tasks found. Add one above!</p>;
-  }
+export const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle }) => {
+  const completedCount = tasks.filter((t) => t.completed).length;
 
   return (
-    <div className="task-list divide-y divide-slate-100 dark:divide-slate-700">
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onToggleComplete={onToggleComplete}
-          onDelete={onDelete}
-        />
-      ))}
+    <div>
+      <div role="status" aria-live="polite" className="sr-only">
+        {completedCount} of {tasks.length} tasks completed
+      </div>
+      <ul className="task-list">
+        {tasks.map((task) => (
+          <li key={task.id}>
+            <label>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => onToggle(task.id)}
+              />
+              <span className={task.completed ? 'completed' : ''}>{task.title}</span>
+            </label>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
