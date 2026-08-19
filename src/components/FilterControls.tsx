@@ -23,7 +23,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         data-testid="search-input"
-        className="p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+        className="p-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
       />
       <div className="flex gap-1">
         {(['all', 'active', 'completed'] as FilterStatus[]).map((status) => (
@@ -32,8 +32,8 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
             onClick={() => onFilterChange(status)}
             className={`px-3 py-1.5 text-xs font-medium uppercase rounded border transition-colors ${
               currentFilter === status
-                ? 'bg-indigo-600 text-white border-indigo-600'
-                : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-100'
+                ? 'bg-indigo-600 text-white border-indigo-600 dark:bg-indigo-500 dark:border-indigo-500'
+                : 'bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600'
             }`}
           >
             {status}

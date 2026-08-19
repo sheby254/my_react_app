@@ -1,15 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Task, Priority } from './types/task';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { Header } from './components/Header';
 import { AddTaskForm } from './components/AddTaskForm';
 import { FilterControls, FilterStatus } from './components/FilterControls';
 import { TaskList } from './components/TaskList';
+import { DarkModeToggle } from './components/DarkModeToggle';
 
 export function App() {
   const [tasks, setTasks] = useLocalStorage<Task[]>('tasks_data', []);
+  const [darkMode, setDarkMode] = useLocalStorage<boolean>('dark_mode', false);
   const [filter, setFilter] = useState<FilterStatus>('all');
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   const handleAddTask = (title: string, priority: Priority) => {
     const newTask: Task = {
@@ -46,9 +56,12 @@ export function App() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-800 p-4 font-sans">
-      <div className="max-w-2xl mx-auto my-12 p-8 bg-white rounded-lg shadow-md border border-slate-200">
-        <Header title="React Task Manager" totalTasks={tasks.length} />
+    <div className="min-h-screen bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-100 p-4 font-sans transition-colors duration-200">
+      <div className="max-w-2xl mx-auto my-12 p-8 bg-white dark:bg-slate-800 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
+        <div className="flex justify-between items-center mb-6">
+          <Header title="React Task Manager" totalTasks={tasks.length} />
+          <DarkModeToggle darkMode={darkMode} onToggle={() => setDarkMode(!darkMode)} />
+        </div>
         <AddTaskForm onAddTask={handleAddTask} />
         <FilterControls
           currentFilter={filter}

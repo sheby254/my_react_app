@@ -24,13 +24,13 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAddTask }) => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         data-testid="task-title-input"
-        className="flex-1 p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="flex-1 p-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
       <select
         value={priority}
         onChange={(e) => setPriority(e.target.value as Priority)}
         data-testid="task-priority-select"
-        className="p-2 border border-slate-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+        className="p-2 border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
       >
         <option value="low">Low</option>
         <option value="medium">Medium</option>
@@ -38,7 +38,7 @@ export const AddTaskForm: React.FC<AddTaskFormProps> = ({ onAddTask }) => {
       </select>
       <button 
         type="submit" 
-        className="px-4 py-2 bg-indigo-600 text-white font-medium rounded hover:bg-indigo-700 transition-colors"
+        className="px-4 py-2 bg-indigo-600 text-white font-medium rounded hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition-colors"
       >
         Add Task
       </button>
